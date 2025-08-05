@@ -1,100 +1,22 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Volunteer Shift Calendar</title>
-    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet">
-    <style>
-        body { font-family: sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
-        header { background: #222; color: #fff; padding: 1rem; text-align: center; }
-        .calendar-section { display: flex; flex-wrap: wrap; justify-content: space-around; margin: 2rem; }
-        .calendar-container { width: 48%; background: white; padding: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 2rem; }
-        .shift-labels { display: flex; justify-content: space-around; margin-top: 2rem; }
-        .shift-list { width: 30%; background: white; padding: 1rem; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        h2 { text-align: center; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Volunteer Fire Shift Calendar</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <header>
-        <h1>Volunteer Shift Calendar</h1>
-    </header>
-    <div class="calendar-section">
-        <div class="calendar-container">
-            <h2>A Shift (Green)</h2>
-            <div id="calendar-a"></div>
-        </div>
-        <div class="calendar-container">
-            <h2>B Shift (Blue)</h2>
-            <div id="calendar-b"></div>
-        </div>
-    </div>
-    <div class="shift-labels">
-        <div class="shift-list">
-            <h3>A Shift</h3>
-            <ul id="a-names"></ul>
-        </div>
-        <div class="shift-list">
-            <h3>B Shift</h3>
-            <ul id="b-names"></ul>
-        </div>
-        <div class="shift-list">
-            <h3>C Shift</h3>
-            <ul id="c-names"></ul>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
-    <script>
-        const people = {
-            "2025-08-06": {
-                a: ["Alice", "Andy"],
-                b: ["Ben", "Bianca"],
-                c: ["Carlos", "Cindy"]
-            },
-            "2025-08-07": {
-                a: ["Aaron", "Ava"],
-                b: ["Brian", "Bella"],
-                c: ["Chris", "Clara"]
-            }
-        };
-
-        function setupCalendar(id, shiftKey, color) {
-            const calendarEl = document.getElementById(id);
-            const calendar = new FullCalendar.Calendar(calendarEl, {
-                initialView: 'dayGridMonth',
-                height: 500,
-                selectable: true,
-                dateClick: function(info) {
-                    document.getElementById("a-names").innerHTML = "";
-                    document.getElementById("b-names").innerHTML = "";
-                    document.getElementById("c-names").innerHTML = "";
-
-                    const date = info.dateStr;
-                    if (people[date]) {
-                        ["a", "b", "c"].forEach(shift => {
-                            const ul = document.getElementById(`${shift}-names`);
-                            people[date][shift]?.forEach(name => {
-                                const li = document.createElement("li");
-                                li.textContent = name;
-                                ul.appendChild(li);
-                            });
-                        });
-                    }
-                },
-                events: Object.keys(people).map(date => ({
-                    title: shiftKey.toUpperCase() + " Shift",
-                    start: date,
-                    backgroundColor: color,
-                    borderColor: color
-                }))
-            });
-            calendar.render();
-        }
-
-        setupCalendar("calendar-a", "a", "green");
-        setupCalendar("calendar-b", "b", "blue");
-    </script>
+  <h1>Volunteer Fire Shift Calendar</h1>
+  <p>Select a date to see who is on shift.</p>
+  <div class="calendars">
+    <div class="calendar" id="calendarA"></div>
+    <div class="calendar" id="calendarB"></div>
+  </div>
+  <div class="shift-list" id="shiftList">
+    <h2>Shift Roster</h2>
+    <div id="shiftDetails"></div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>
