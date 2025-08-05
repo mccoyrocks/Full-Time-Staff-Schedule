@@ -32,9 +32,22 @@ function buildCalendar(id, shiftLabel, startDate, colors) {
   while (date.getMonth() === month) {
     const td = document.createElement("td");
     const dateStr = date.toISOString().split("T")[0];
-    const shiftType = shifts[(day - 1) % 3];
     td.textContent = day;
 
+    let shiftType;
+    if (scheduleType === "24-48") {
+      // 24/48: rotates every day (A, B, C)
+      const shifts = ["A", "B", "C"];
+      shiftType = shifts[(day - 1) % 3];
+    } else if (scheduleType === "48-96") {
+      // 48/96: 2 days on, 4 days off, repeat (A, B, C)
+      const shifts = ["A", "A", "B", "B", "C", "C"];
+      shiftType = shifts[(day - 1) % 6];
+    } else {
+      shiftType = "A";
+    }
+
+    td.textContent = day;
     if (shiftType === "A") td.classList.add("green");
     else if (shiftType === "B") td.classList.add("blue");
     else td.classList.add("red");
@@ -65,4 +78,5 @@ function buildCalendar(id, shiftLabel, startDate, colors) {
 }
 
 buildCalendar("calendarA", "Calendar A", "2025-08-01", ["green", "blue", "red"]);
+buildCalendar("calendarB", "Calendar B", "2025-08-01", ["green", "blue", "red"]);5-08-01", ["green", "blue", "red"]);
 buildCalendar("calendarB", "Calendar B", "2025-08-01", ["green", "blue", "red"]);
